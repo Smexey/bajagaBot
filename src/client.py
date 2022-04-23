@@ -6,7 +6,6 @@ import os
 
 TOKEN = os.environ.get('DISCORD_API_TOKEN')
 PREFIX = '!'
-print(TOKEN)
 bot = commands.Bot(command_prefix=PREFIX)
 
 

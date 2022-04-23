@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  bajaga:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    restart: on-failure
