@@ -1,6 +1,6 @@
 from discord import Intents
 import os
-from cogs import *
+from discord.ext import commands
 from bajaga import Bajaga
 
 
@@ -11,8 +11,8 @@ def main():
     intents = Intents.default()
     intents.members = True
 
+
     bot = Bajaga(command_prefix=PREFIX)
-    bot.add_cog(Radio(bot=bot))
 
     bot.run(TOKEN)
 
