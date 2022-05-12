@@ -4,6 +4,8 @@ from discord import FFmpegPCMAudio
 from discord import VoiceClient, VoiceChannel
 import discord.ext.commands
 import const
+from discord.ext import commands
+
 
 
 class Radio(discord.ext.commands.Cog, name='Radio module'):
@@ -28,19 +30,30 @@ class Radio(discord.ext.commands.Cog, name='Radio module'):
         await ctx.send(f'Tvoje usi cuju: {url}')
         await msg.add_reaction(self.bot.get_emoji(const.Emojis.DOGE_DANCE))
 
-    @discord.ext.commands.command(aliases=['r'], name="Play radio")
+    @commands.command(aliases=['r'], name="Play radio")
     async def radio(self, ctx: Context, url: str = const.Radio.ROCK):
         await self.play_url(ctx, url)
 
-    @discord.ext.commands.command(aliases=['n'], name="Naxi radio")
+    @commands.command(aliases=['n'], name="Naxi radio")
     async def naxi(self, ctx: Context, subtype: str = ""):
         # TODO: add more naxis
         url = const.Radio.NAXI
         await self.play_url(ctx, url)
 
-    @discord.ext.commands.command(aliases=['s'], name="Stop player")
+    @commands.command(aliases=['s'], name="Stop player")
     async def stop(self, ctx: Context):
         if self.player.is_playing():
             self.player.stop()
             msg: discord.Message = ctx.message
             await msg.add_reaction(self.bot.get_emoji(const.Emojis.BONK))
+
+    @commands.command(name='leave', aliases=['disconnect'])
+    @commands.has_permissions(manage_guild=True)
+    async def _leave(self, ctx: commands.Context):
+        """Clears the queue and leaves the voice channel."""
+
+        if not ctx.voice_state.voice:
+            return await ctx.send('Not connected to any voice channel.')
+
+        await ctx.voice_state.stop()
+        del self.voice_states[ctx.guild.id]

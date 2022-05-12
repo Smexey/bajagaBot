@@ -2,7 +2,7 @@ from radio import Radio
 from discord.ext import commands
 
 from discord import Game
-from music2 import Music
+from music import Music
 
 class Bajaga(commands.Bot):
 
@@ -11,7 +11,7 @@ class Bajaga(commands.Bot):
         super().__init__(command_prefix,
                          description, activity=activity, **options)
         self.add_cog(Radio(bot=self))
-        self.add_cog(Music(bot=self))
+        # self.add_cog(Music(bot=self))
 
 
     async def on_ready(self):
